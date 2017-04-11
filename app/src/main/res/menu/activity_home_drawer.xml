@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:id="@+id/gr1" android:checkableBehavior="single">
+    <group
+        android:id="@+id/gr1"
+        android:checkableBehavior="single">
 
         <item
             android:id="@+id/nav_profile"
@@ -10,20 +12,22 @@
 
     </group>
 
-    <group android:id="@+id/gr2" android:checkableBehavior="single">
+    <group
+        android:id="@+id/gr2"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/nav_pass_code"
-            android:icon="@drawable/ic_action_person_add"
             android:title="Enter Pass Code" />
     </group>
 
-    <group android:id="@+id/gr7" android:checkableBehavior="single">
+    <group
+        android:id="@+id/gr7"
+        android:checkableBehavior="single">
         <item
 
-            android:title="Log out"
-            android:icon="@drawable/logout_variant"
             android:id="@+id/nav_logout"
-            />
+            android:icon="@drawable/logout_variant"
+            android:title="Log out" />
     </group>
 
 

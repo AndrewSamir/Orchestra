@@ -3,6 +3,5 @@
     <color name="colorPrimary">#1D89E4</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="fragmentBackground">#EDE7F6</color>
 
 </resources>
