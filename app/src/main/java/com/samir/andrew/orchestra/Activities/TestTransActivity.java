@@ -1,7 +1,9 @@
-package com.samir.andrew.orchestra;
+package com.samir.andrew.orchestra.Activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+
+import com.samir.andrew.orchestra.R;
 
 public class TestTransActivity extends AppCompatActivity {
 

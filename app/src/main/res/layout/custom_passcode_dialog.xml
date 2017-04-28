@@ -3,15 +3,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="300dp"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
     android:background="@drawable/dialog_background"
     android:orientation="vertical"
     android:padding="0dp"
-    android:weightSum="3">
+
+    android:weightSum="4">
+
+    <TextView
+        android:layout_marginTop="20dp"
+        android:id="@+id/textViewOrchestraPassCodeDialog"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.1"
+        android:gravity="center"
+        android:text="@string/app_name"
+        android:textColor="#FFFFFF"
+        android:textSize="35dp" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2">
+        android:layout_weight="1.9">
 
         <EditText
             android:id="@+id/editTextPassCodeCustomDialog"
@@ -22,7 +36,6 @@
             android:background="@drawable/edit_text_background_white"
             android:ems="10"
             android:hint="PassCode"
-            android:inputType="textEmailSubject"
             android:padding="15dp" />
     </RelativeLayout>
 
@@ -41,10 +54,10 @@
             android:layout_margin="7dp"
             android:layout_weight="1"
             android:background="@drawable/button_background_login"
+            android:elevation="8dp"
             android:text="Link Account"
             android:textColor="#FFFFFF"
-            android:textStyle="bold"
-            app:elevation="8dp" />
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/buttonCancelCustomDialog"
@@ -54,10 +67,10 @@
             android:layout_margin="7dp"
             android:layout_weight="1"
             android:background="@drawable/button_background_login"
+            android:elevation="8dp"
             android:text="Calncel"
             android:textColor="#FFFFFF"
-            android:textStyle="bold"
-            app:elevation="8dp" />
+            android:textStyle="bold" />
 
     </LinearLayout>
 

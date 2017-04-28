@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="5"
-    tools:context="com.samir.andrew.orchestra.TestTransActivity">
+    tools:context="com.samir.andrew.orchestra.Activities.TestTransActivity">
 
     <ImageView
         android:id="@+id/imageView5"

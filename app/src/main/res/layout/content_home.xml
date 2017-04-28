@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:weightSum="9"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.samir.andrew.orchestra.Home"
+    tools:context="com.samir.andrew.orchestra.Activities.Home"
     tools:showIn="@layout/app_bar_home">
 
     <android.support.v4.view.ViewPager

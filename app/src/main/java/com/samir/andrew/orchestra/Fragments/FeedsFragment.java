@@ -17,7 +17,7 @@ import com.samir.andrew.orchestra.Adapters.FeedsAdapter;
 import com.samir.andrew.orchestra.Data.FeedsData;
 import com.samir.andrew.orchestra.Helper.CustomViewPager;
 import com.samir.andrew.orchestra.R;
-import com.samir.andrew.orchestra.TestTransActivity;
+import com.samir.andrew.orchestra.Activities.TestTransActivity;
 import com.viewpagerindicator.CirclePageIndicator;
 
 import java.util.ArrayList;
@@ -46,7 +46,7 @@ public class FeedsFragment extends Fragment {
         setGridViewHeaderAndFooter();
 
 
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+   /*     gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getActivity(), TestTransActivity.class);
@@ -57,7 +57,7 @@ public class FeedsFragment extends Fragment {
                     getContext().startActivity(intent, bundle);
                 }
             }
-        });
+        });*/
 
 
         arrayListFeedData = new ArrayList<>();

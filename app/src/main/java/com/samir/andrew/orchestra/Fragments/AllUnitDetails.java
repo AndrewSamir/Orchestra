@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,10 +20,13 @@ import com.samir.andrew.orchestra.R;
 
 public class AllUnitDetails extends Fragment {
 
+    Bundle bundle;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_unit_all_details, null);
+
         transaction(0);
 
         BottomNavigationView navigation = (BottomNavigationView) v.findViewById(R.id.navigationFragmentUnitAllDetails);
@@ -47,7 +51,8 @@ public class AllUnitDetails extends Fragment {
         // Replace whatever is in the fragment_container view with this fragment,
         // and add the transaction to the back stack if needed
         transaction.replace(R.id.framLayoutFragmentUnitAllDetails, newFragment);
-        transaction.addToBackStack(null);
+        //transaction.addToBackStack(null);
+        //transaction.disallowAddToBackStack();
 
         // Commit the transaction
         transaction.commit();

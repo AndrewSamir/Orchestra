@@ -11,9 +11,112 @@
         app:elevation="8dp"
         app:cardElevation="8dp"
         android:layout_height="match_parent" >
-        <TextView
-            android:layout_width="wrap_content"
-            android:text="owner"
-            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#FFFFFF"
+            android:orientation="vertical"
+            android:visibility="visible"
+            android:weightSum="8">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/fab_margin"
+                android:layout_weight="3"
+                android:orientation="vertical"
+                android:weightSum="2">
+
+
+                <TextView
+                    android:id="@+id/textViewEnglishNameFragmentOwner"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center|center_vertical"
+                    android:text="Name" />
+
+                <TextView
+                    android:id="@+id/textViewArabicNameFragmentOwner"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center|center_vertical"
+                    android:text="عربى" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_weight="0.8"
+                    android:gravity="left"
+
+                    android:text="ID" />
+
+                <TextView
+                    android:id="@+id/textViewClientIdFragmentOwner"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.2"
+                    android:gravity="left" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_weight="0.8"
+                    android:gravity="left"
+                    android:text="Mobile" />
+
+                <TextView
+                    android:id="@+id/textViewMobileFragmentOwner"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.2"
+                    android:gravity="left" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_weight="0.8"
+                    android:gravity="left"
+                    android:text="Email" />
+
+                <TextView
+                    android:id="@+id/textViewMailFragmentOwner"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.2"
+                    android:gravity="left" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
     </android.support.v7.widget.CardView>
 </LinearLayout>

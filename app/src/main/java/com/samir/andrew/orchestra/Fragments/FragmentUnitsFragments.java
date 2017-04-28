@@ -29,12 +29,7 @@ public class FragmentUnitsFragments extends Fragment {
         return v;
     }
 
-    @Override
-    public void onResume() {
-        transaction();
 
-        super.onResume();
-    }
 
     private void transaction() {
         // Create new fragment and transaction
