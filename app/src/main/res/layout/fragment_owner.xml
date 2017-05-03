@@ -56,7 +56,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:layout_weight="0.8"
+                    android:layout_weight="0.6"
                     android:gravity="left"
 
                     android:text="ID" />
@@ -65,7 +65,7 @@
                     android:id="@+id/textViewClientIdFragmentOwner"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.2"
+                    android:layout_weight="1.4"
                     android:gravity="left" />
             </LinearLayout>
 
@@ -80,7 +80,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:layout_weight="0.8"
+                    android:layout_weight="0.6"
                     android:gravity="left"
                     android:text="Mobile" />
 
@@ -88,7 +88,7 @@
                     android:id="@+id/textViewMobileFragmentOwner"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.2"
+                    android:layout_weight="1.4"
                     android:gravity="left" />
             </LinearLayout>
 
@@ -103,7 +103,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:layout_weight="0.8"
+                    android:layout_weight="0.6"
                     android:gravity="left"
                     android:text="Email" />
 
@@ -111,7 +111,7 @@
                     android:id="@+id/textViewMailFragmentOwner"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.2"
+                    android:layout_weight="1.4"
                     android:gravity="left" />
             </LinearLayout>
 

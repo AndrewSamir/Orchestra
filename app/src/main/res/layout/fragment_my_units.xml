@@ -5,14 +5,31 @@
     android:background="#FFFFFF"
     android:orientation="vertical">
 
+
+
     <ExpandableListView
         android:id="@+id/lvExpFragmentMyUnits"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <TextView
+        android:id="@+id/tvEmptyMyUnits"
+        android:paddingTop="40dp"
+        android:text="There is no Units"
+        android:visibility="visible"
+        android:background="#FFFFFF"
+        android:gravity="center_horizontal"
+        android:textStyle="italic"
+        android:textSize="25dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+
     <RelativeLayout
         android:id="@+id/relativeLayoutFragmentMyUnits"
         android:background="#FFFFFF"
+        android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

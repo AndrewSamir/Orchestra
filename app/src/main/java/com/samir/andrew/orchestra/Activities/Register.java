@@ -24,6 +24,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.samir.andrew.orchestra.Data.RegisterationData;
 import com.samir.andrew.orchestra.Fragments.DatePickerFragment;
 import com.samir.andrew.orchestra.R;
@@ -39,6 +40,7 @@ public class Register extends AppCompatActivity {
     Button register;
     public static TextView signin, birthdate;
     RelativeLayout relativeLayout;
+
 
     private FirebaseAuth mAuth;
 
@@ -131,6 +133,8 @@ public class Register extends AppCompatActivity {
         if (birthdate.getText().toString().length() == 0) {
             birthdate.setError("Please Enter Your Birthdate");
             birthdate.requestFocus();
+            valid = false;
+
         }
 
         if (phone.getText().toString().length() == 0) {
@@ -180,7 +184,7 @@ public class Register extends AppCompatActivity {
             name.requestFocus();
             valid = false;
 
-            editText = mail;
+            editText = name;
         }
 
         if (!valid) {
@@ -222,6 +226,7 @@ public class Register extends AppCompatActivity {
 
                                         relativeLayout.setVisibility(View.GONE);
                                     } else {
+                                        FirebaseMessaging.getInstance().subscribeToTopic(FirebaseAuth.getInstance().getCurrentUser().getUid());
                                         SplashScreen.path = "Users/" + FirebaseAuth.getInstance().getCurrentUser().getUid();
                                         TastyToast.makeText(getApplicationContext(), "your account created successfully", TastyToast.LENGTH_LONG, TastyToast.SUCCESS);
                                         startActivity(new Intent(Register.this, Home.class));
@@ -273,6 +278,7 @@ public class Register extends AppCompatActivity {
     }
 
     public void showDatePickerDialog(View v) {
+        SplashScreen.fromDate = 0;
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }

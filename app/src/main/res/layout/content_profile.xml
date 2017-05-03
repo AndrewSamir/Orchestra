@@ -124,11 +124,21 @@
         </android.support.v7.widget.CardView>
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/llEditProfile"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/activity_register" />
+    </LinearLayout>
+
     <RelativeLayout
         android:id="@+id/relativeLayoutProfile"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FFFFFF">
+        android:background="#FFFFFF"
+        android:visibility="visible">
 
         <ProgressBar
             android:layout_width="wrap_content"

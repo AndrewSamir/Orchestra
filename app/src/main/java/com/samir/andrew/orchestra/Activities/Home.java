@@ -67,7 +67,6 @@ public class Home extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
         //================================//
         //   FirebaseCrash.report(new Exception("My first Android non-fatal error"));
@@ -109,9 +108,10 @@ public class Home extends AppCompatActivity
         } else {
             if (fragmentPosition != 0) {
 
-                if (fragmentPosition == 1 && intoUnitDetails)
-                    transactionMyUnits(1);
-                else
+                if (fragmentPosition == 1 && intoUnitDetails) {
+                    intoUnitDetails = false;
+                    super.onBackPressed();
+                } else
                     mViewPager.setCurrentItem(0);
             } else {
                 finish();
@@ -132,6 +132,7 @@ public class Home extends AppCompatActivity
             passcodeDialog(null);
             // Handle the camera action
         } else if (id == R.id.nav_logout) {
+            FirebaseMessaging.getInstance().unsubscribeFromTopic(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
             FirebaseAuth.getInstance().signOut();
             Intent intent = new Intent(this, LogIn.class);
@@ -360,26 +361,6 @@ public class Home extends AppCompatActivity
             e.printStackTrace();
         }
         return false;
-    }
-
-    private void transactionMyUnits(int fm) {
-        // Create new fragment and transaction
-        Fragment newFragment;
-        if (fm == 0)
-            newFragment = new AllUnitDetails();
-        else
-            newFragment = new MyUnitsFragment();
-
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-
-        // Replace whatever is in the fragment_container view with this fragment,
-        // and add the transaction to the back stack if needed
-        transaction.replace(R.id.fragmentUnitsFragment, newFragment);
-
-        transaction.addToBackStack(null);
-        // Commit the transaction
-        transaction.commit();
-
     }
 
 }

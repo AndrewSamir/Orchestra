@@ -30,20 +30,9 @@ public class MessagesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_messages, container, false);
 
-        PageListener pageListener = new PageListener();
-        Home.mViewPager.setOnPageChangeListener(pageListener);
-
 
         return v;
     }
 
-    private class PageListener extends ViewPager.SimpleOnPageChangeListener {
-        public void onPageSelected(int position) {
-            if (position == 2) {
 
-                Home.fragmentPosition = 2;
-
-            }
-        }
-    }
 }

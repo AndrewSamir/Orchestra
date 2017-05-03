@@ -18,6 +18,13 @@
             android:orientation="vertical"
             android:padding="26dp">
 
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:src="@drawable/orchestra_logo" />
+
             <TextView
                 android:id="@+id/textViewOrchestraRegister"
                 android:layout_width="match_parent"
@@ -26,15 +33,17 @@
                 android:text="Orchestra"
                 android:textColor="#FFFFFF"
                 android:textSize="35sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
 
             <EditText
                 android:id="@+id/editTextNameRegister"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:paddingRight="10dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/edit_text_background_white"
-                android:hint="Name"
+                android:hint="Name *"
                 android:inputType="textPersonName"
                 android:paddingLeft="20dp" />
 
@@ -45,23 +54,26 @@
                 android:layout_marginTop="20dp"
                 android:background="@drawable/edit_text_background_white"
                 android:ems="10"
-                android:hint="Email"
+                android:paddingRight="10dp"
+                android:hint="Email *"
                 android:inputType="textEmailAddress"
                 android:paddingLeft="20dp" />
 
             <EditText
+                android:paddingRight="10dp"
                 android:id="@+id/editTextPhoneRegister"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/edit_text_background_white"
                 android:ems="10"
-                android:hint="Mobile Number"
+                android:hint="Mobile Number *"
                 android:inputType="phone"
                 android:paddingLeft="20dp" />
 
 
             <TextView
+                android:paddingRight="10dp"
                 android:id="@+id/editTextBirthdate"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -69,34 +81,34 @@
                 android:background="@drawable/edit_text_background_white"
                 android:editable="false"
                 android:ems="10"
-                android:hint="Birthdate"
-                android:paddingLeft="20dp"
                 android:gravity="center_vertical"
-                android:textSize="20dp"
-                android:onClick="showDatePickerDialog" />
-
-
+                android:hint="Birthdate *"
+                android:onClick="showDatePickerDialog"
+                android:paddingLeft="20dp"
+                android:textSize="20dp" />
 
 
             <EditText
+                android:paddingRight="10dp"
                 android:id="@+id/editTextPasswordRegister"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/edit_text_background_white"
                 android:ems="10"
-                android:hint="Password"
+                android:hint="Password *"
                 android:inputType="textPassword"
                 android:paddingLeft="20dp" />
 
             <EditText
+                android:paddingRight="10dp"
                 android:id="@+id/editTextConfirmPAsswordRegister"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/edit_text_background_white"
                 android:ems="10"
-                android:hint="Confirm Password"
+                android:hint="Confirm Password *"
                 android:inputType="textPassword"
                 android:paddingLeft="20dp" />
 

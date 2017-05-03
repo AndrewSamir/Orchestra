@@ -17,13 +17,21 @@
             android:orientation="vertical"
             android:padding="26dp">
 
+            <ImageView
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:src="@drawable/orchestra_logo" />
+
             <TextView
                 android:id="@+id/textViewOrchestraLogin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_marginTop="20dp"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
+
                 android:gravity="center"
                 android:text="Orchestra"
                 android:textAllCaps="true"
@@ -52,7 +60,8 @@
                 android:background="@drawable/edit_text_background_white"
                 android:hint="password"
                 android:inputType="textPassword"
-                android:paddingLeft="20dp" />
+                android:paddingLeft="20dp"
+                android:paddingRight="10dp"/>
 
             <Button
                 android:id="@+id/buttonSignIn"

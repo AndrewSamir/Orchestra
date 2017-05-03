@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.widget.DatePicker;
 
+import com.samir.andrew.orchestra.Activities.Profile;
 import com.samir.andrew.orchestra.Activities.Register;
+import com.samir.andrew.orchestra.Activities.SplashScreen;
 
 import java.util.Calendar;
 
@@ -30,8 +32,14 @@ public class DatePickerFragment extends DialogFragment
     }
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
+
+        int printedMonth = month + 1;
         // Do something with the date chosen by the user
 
-        Register.birthdate.setText(day + "/" + month + 1 + "/" + year);
+        if (SplashScreen.fromDate == 0)
+            Register.birthdate.setText(day + "/" + printedMonth + "/" + year);
+        else if (SplashScreen.fromDate == 1)
+            Profile.etbirthdate.setText(day + "/" + printedMonth + "/" + year);
+
     }
 }

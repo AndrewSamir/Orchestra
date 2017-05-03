@@ -6,10 +6,13 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.crash.FirebaseCrash;
+import com.google.firebase.database.FirebaseDatabase;
 import com.samir.andrew.orchestra.R;
+import io.fabric.sdk.android.Fabric;
 
 public class SplashScreen extends AppCompatActivity {
 
@@ -17,12 +20,24 @@ public class SplashScreen extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthListener;
 
     public static String path;
+    private static FirebaseDatabase mDatabase;
+
+    public static int fromDate;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_splash_screen);
+
+        mDatabase = FirebaseDatabase.getInstance();
+
+        if (mDatabase == null) {
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            database.setPersistenceEnabled(true);
+            // ...
+        }
         mAuth = FirebaseAuth.getInstance();
 
         // to send crash repost to firebase

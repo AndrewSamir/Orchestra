@@ -1,20 +1,25 @@
 package com.samir.andrew.orchestra.Fragments;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ExpandableListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.crash.FirebaseCrash;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,6 +31,8 @@ import com.samir.andrew.orchestra.Adapters.ExpandableListMyUnitsAdapter;
 import com.samir.andrew.orchestra.Data.UnitDataSingleton;
 import com.samir.andrew.orchestra.Activities.Home;
 import com.samir.andrew.orchestra.R;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,6 +51,7 @@ public class MyUnitsFragment extends Fragment {
     DataSnapshot myChild, myChildList;
     RelativeLayout relativeLayout;
     Dialog loadingDialog;
+    TextView empty;
 
 
     @Nullable
@@ -53,11 +61,14 @@ public class MyUnitsFragment extends Fragment {
 
         // get the listview
         expListView = (ExpandableListView) v.findViewById(R.id.lvExpFragmentMyUnits);
+        empty = (TextView) v.findViewById(R.id.tvEmptyMyUnits);
         relativeLayout = (RelativeLayout) v.findViewById(R.id.relativeLayoutFragmentMyUnits);
 
         PageListener pageListener = new PageListener();
         Home.mViewPager.setOnPageChangeListener(pageListener);
 
+        if (Home.fragmentPosition == 1)
+            getMyUnitsFromFirebase();
 
         expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
@@ -65,6 +76,32 @@ public class MyUnitsFragment extends Fragment {
 
                 getMyUnitDetailsFromFirebase(listDataHeader.get(groupPosition),
                         listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition));
+                return true;
+            }
+        });
+
+
+        expListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                ExpandableListView listView = (ExpandableListView) parent;
+                long pos = listView.getExpandableListPosition(position);
+
+                // get type and correct positions
+                int itemType = ExpandableListView.getPackedPositionType(pos);
+                int groupPos = ExpandableListView.getPackedPositionGroup(pos);
+                int childPos = ExpandableListView.getPackedPositionChild(pos);
+
+                // if child is long-clicked
+                if (itemType == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
+
+                    dialogtoDeleteUnit(listDataHeader.get(groupPos),
+                            listDataChild.get(listDataHeader.get(groupPos)).get(childPos));
+
+                }
+
+
                 return true;
             }
         });
@@ -116,6 +153,7 @@ public class MyUnitsFragment extends Fragment {
                 int i = 0;
                 while (myChildren.iterator().hasNext()) {
 
+                    empty.setVisibility(View.GONE);
                     myChild = myChildren.iterator().next();
                     try {
                         listDataHeader.add(myChild.getKey());
@@ -139,6 +177,8 @@ public class MyUnitsFragment extends Fragment {
                     }
                     i++;
                 }
+                if (i == 0)
+                    empty.setVisibility(View.VISIBLE);
 
                 listAdapter = new ExpandableListMyUnitsAdapter(getActivity(), listDataHeader, listDataChild);
 
@@ -147,6 +187,7 @@ public class MyUnitsFragment extends Fragment {
 
                 //view the result
                 relativeLayout.setVisibility(View.GONE);
+
             }
 
             @Override
@@ -189,26 +230,39 @@ public class MyUnitsFragment extends Fragment {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
 
-                // owner data
-                UnitDataSingleton.getInstance().setMail(dataSnapshot.child("Email").getValue().toString());
-                UnitDataSingleton.getInstance().setEnglishName(dataSnapshot.child("ClientNameEnglish").getValue().toString());
-                UnitDataSingleton.getInstance().setArabicName(dataSnapshot.child("ClientNameArabic").getValue().toString());
-                UnitDataSingleton.getInstance().setId(dataSnapshot.child("ClientId").getValue().toString());
-                UnitDataSingleton.getInstance().setMobile(dataSnapshot.child("Mobile").getValue().toString());
+                try {
+                    // owner data
+                    UnitDataSingleton.getInstance().setMail(dataSnapshot.child("Email").getValue().toString());
+                    UnitDataSingleton.getInstance().setEnglishName(dataSnapshot.child("ClientNameEnglish").getValue().toString());
+                    UnitDataSingleton.getInstance().setArabicName(dataSnapshot.child("ClientNameArabic").getValue().toString());
+                    UnitDataSingleton.getInstance().setId(dataSnapshot.child("ClientId").getValue().toString());
+                    UnitDataSingleton.getInstance().setMobile(dataSnapshot.child("Mobile").getValue().toString());
 
-                // unit details data
-                UnitDataSingleton.getInstance().setProjectName(dataSnapshot.child("ProjectName").getValue().toString());
-                UnitDataSingleton.getInstance().setReservationDate(dataSnapshot.child("ReservationDate").getValue().toString());
-                UnitDataSingleton.getInstance().setUnitCode(dataSnapshot.child("UnitCode").getValue().toString());
-                UnitDataSingleton.getInstance().setUnitTotalPrice(dataSnapshot.child("UnitTotalPrice").getValue().toString());
-                UnitDataSingleton.getInstance().setUnitType(dataSnapshot.child("UnitType").getValue().toString());
+                    // unit details data
+                    UnitDataSingleton.getInstance().setProjectName(dataSnapshot.child("ProjectName").getValue().toString());
+                    UnitDataSingleton.getInstance().setReservationDate(dataSnapshot.child("ReservationDate").getValue().toString());
+                    UnitDataSingleton.getInstance().setUnitCode(dataSnapshot.child("UnitCode").getValue().toString());
+                    UnitDataSingleton.getInstance().setUnitTotalPrice(dataSnapshot.child("UnitTotalPrice").getValue().toString());
+                    UnitDataSingleton.getInstance().setUnitType(dataSnapshot.child("UnitType").getValue().toString());
 
-                // subscribe to the project and the unit code
-                FirebaseMessaging.getInstance().subscribeToTopic(dataSnapshot.child("UnitCode").getValue().toString());
-                FirebaseMessaging.getInstance().subscribeToTopic(dataSnapshot.child("ProjectName").getValue().toString().replace(' ', '_'));
+                    // subscribe to the project and the unit code
+                    FirebaseMessaging.getInstance().subscribeToTopic(dataSnapshot.child("UnitCode").getValue().toString());
+                    FirebaseMessaging.getInstance().subscribeToTopic(dataSnapshot.child("ProjectName").getValue().toString().replace(' ', '_'));
+                } catch (Exception e) {
+                    e.printStackTrace();
+
+                    FirebaseCrash.log("read unit data failed from firebase for UID : "+FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+                }
 
 
-                transaction(0);
+                try {
+                    transaction(0);
+                } catch (Exception e) {
+                    FirebaseCrash.log("transaction for UID : "+FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+                    e.printStackTrace();
+                }
             }
 
             @Override
@@ -223,11 +277,46 @@ public class MyUnitsFragment extends Fragment {
         public void onPageSelected(int position) {
             if (position == 1) {
                 getMyUnitsFromFirebase();
-                //transaction(1);
-                Home.fragmentPosition = 1;
-
             }
+
+            if (Home.intoUnitDetails) {
+                Home.intoUnitDetails = false;
+                transaction(1);
+            }
+            Home.fragmentPosition = position;
         }
+    }
+
+    private void dialogtoDeleteUnit(final String projectName, final String unitCode) {
+        new AlertDialog.Builder(getContext())
+                .setTitle("Delete Unit")
+                .setMessage("Are you sure you want to delete this Unit?")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // continue with delete
+                        deleteUnitFromFirebase(projectName, unitCode);
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                        dialog.dismiss();
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+
+    private void deleteUnitFromFirebase(String projectName, String unitCode) {
+        FirebaseMessaging.getInstance().unsubscribeFromTopic(unitCode);
+        FirebaseMessaging.getInstance().unsubscribeFromTopic(projectName.replace(' ', '_'));
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("Users/" + FirebaseAuth.getInstance().getCurrentUser().getUid()
+                + "/Projects/"
+        );
+        myRef.child(projectName).child(unitCode).removeValue();
+
     }
 
 }

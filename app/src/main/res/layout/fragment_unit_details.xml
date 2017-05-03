@@ -32,7 +32,7 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.8"
+                    android:layout_weight="0.6"
                     android:gravity="left"
                     android:text="Project Name" />
 
@@ -40,7 +40,7 @@
                     android:id="@+id/textViewProjectNameFragmentUnitDetails"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.2"
+                    android:layout_weight="1.4"
                     android:gravity="left" />
             </LinearLayout>
 
@@ -54,7 +54,7 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.8"
+                    android:layout_weight="0.6"
                     android:gravity="left"
                     android:text="Reservtion Date" />
 
@@ -62,7 +62,7 @@
                     android:id="@+id/textViewReservationDateFragmentUnitDetails"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.2"
+                    android:layout_weight="1.4"
                     android:gravity="left" />
             </LinearLayout>
 
@@ -76,7 +76,7 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.8"
+                    android:layout_weight="0.6"
                     android:gravity="left"
                     android:text="Unit Code" />
 
@@ -84,7 +84,7 @@
                     android:id="@+id/textViewUnitCodeFragmentUnitDetails"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.2"
+                    android:layout_weight="1.4"
                     android:gravity="left" />
             </LinearLayout>
 
@@ -98,7 +98,7 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.8"
+                    android:layout_weight="0.6"
                     android:gravity="left"
                     android:text="Unit Total Price" />
 
@@ -106,7 +106,7 @@
                     android:id="@+id/textViewUnitTotalPriceFragmentUnitDetails"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.2"
+                    android:layout_weight="1.4"
                     android:gravity="left" />
             </LinearLayout>
 
@@ -120,7 +120,7 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.8"
+                    android:layout_weight="0.6"
                     android:gravity="left"
                     android:text="Unit Type" />
 
@@ -128,7 +128,7 @@
                     android:id="@+id/textViewUnitTypeFragmentUnitDetails"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.2"
+                    android:layout_weight="1.4"
                     android:gravity="left" />
             </LinearLayout>
 

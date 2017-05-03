@@ -20,6 +20,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.samir.andrew.orchestra.R;
 import com.sdsmdg.tastytoast.TastyToast;
 
@@ -62,7 +63,7 @@ public class LogIn extends AppCompatActivity {
                             .addOnSuccessListener(LogIn.this, new OnSuccessListener<AuthResult>() {
                                 @Override
                                 public void onSuccess(AuthResult authResult) {
-                                    SplashScreen.path = "Users/" + FirebaseAuth.getInstance().getCurrentUser().getUid();
+                                    FirebaseMessaging.getInstance().subscribeToTopic(FirebaseAuth.getInstance().getCurrentUser().getUid());
                                     TastyToast.makeText(getApplicationContext(), "your logged in successfully", TastyToast.LENGTH_LONG, TastyToast.SUCCESS);
 
                                     Intent goToHome = new Intent(LogIn.this, Home.class);
