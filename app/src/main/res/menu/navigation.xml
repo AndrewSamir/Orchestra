@@ -16,4 +16,9 @@
         android:icon="@drawable/ic_notifications_black_24dp"
         android:title="Accounting" />
 
+    <item
+        android:id="@+id/navigation_Chat"
+        android:icon="@drawable/ic_notifications_black_24dp"
+        android:title="Chat" />
+
 </menu>

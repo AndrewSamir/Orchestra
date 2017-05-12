@@ -6,13 +6,44 @@ package com.samir.andrew.orchestra.Data;
 
 public class FeedsData {
 
-    String string;
+    String body, date, image, title;
 
-    public FeedsData(String string) {
-        this.string = string;
+    public FeedsData(String body, String date, String image, String title) {
+        this.body = body;
+        this.date = date;
+        this.image = image;
+        this.title = title;
     }
 
-    public String getString() {
-        return string;
+    public String getBody() {
+        return body;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

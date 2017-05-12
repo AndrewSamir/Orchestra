@@ -68,7 +68,7 @@
             android:layout_weight="1"
             android:background="@drawable/button_background_login"
             android:elevation="8dp"
-            android:text="Calncel"
+            android:text="Cancel"
             android:textColor="#FFFFFF"
             android:textStyle="bold" />
 

@@ -1,5 +1,6 @@
 package com.samir.andrew.orchestra.Fragments;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -7,12 +8,18 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import com.samir.andrew.orchestra.R;
+
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener;
 
 /**
  * Created by andre on 11-Apr-17.
@@ -20,17 +27,39 @@ import com.samir.andrew.orchestra.R;
 
 public class AllUnitDetails extends Fragment {
 
-    Bundle bundle;
+    FrameLayout frameLayout;
+    LinearLayout.LayoutParams lp;
+    float px;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_unit_all_details, null);
+        frameLayout = (FrameLayout) v.findViewById(R.id.framLayoutFragmentUnitAllDetails);
+
+        Resources r = getResources();
+        px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 15, r.getDisplayMetrics());
+        lp = new LinearLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
 
         transaction(0);
 
-        BottomNavigationView navigation = (BottomNavigationView) v.findViewById(R.id.navigationFragmentUnitAllDetails);
+        final BottomNavigationView navigation = (BottomNavigationView) v.findViewById(R.id.navigationFragmentUnitAllDetails);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        KeyboardVisibilityEvent.setEventListener(
+                getActivity(),
+                new KeyboardVisibilityEventListener() {
+                    @Override
+                    public void onVisibilityChanged(boolean isOpen) {
+                        // some code depending on keyboard visiblity status
+                        if (isOpen)
+                            navigation.setVisibility(View.GONE);
+                        else
+                            navigation.setVisibility(View.VISIBLE);
+
+                    }
+                });
 
         return v;
     }
@@ -39,12 +68,28 @@ public class AllUnitDetails extends Fragment {
 
         Fragment newFragment;
         // Create new fragment and transaction
-        if (fragment == 0)
+        if (fragment == 0) {
             newFragment = new OwnerFragment();
-        else if (fragment == 1)
+            lp.setMargins((int) px, (int) px, (int) px, (int) px);
+            frameLayout.setLayoutParams(lp);
+        } else if (fragment == 1) {
             newFragment = new UnitDetailsFragment();
-        else
+            lp.setMargins((int) px, (int) px, (int) px, (int) px);
+            frameLayout.setLayoutParams(lp);
+        } else if (fragment == 2) {
             newFragment = new AccountingFragment();
+            lp.setMargins((int) px, (int) px, (int) px, (int) px);
+            frameLayout.setLayoutParams(lp);
+        } else if (fragment == 3) {
+            newFragment = new ChatUnitFragment();
+            lp.setMargins(0, 0, 0, 0);
+            frameLayout.setLayoutParams(lp);
+        } else {
+            newFragment = new OwnerFragment();
+            lp.setMargins((int) px, (int) px, (int) px, (int) px);
+            frameLayout.setLayoutParams(lp);
+        }
+
 
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
@@ -73,6 +118,9 @@ public class AllUnitDetails extends Fragment {
                     return true;
                 case R.id.navigation_notifications:
                     transaction(2);
+                    return true;
+                case R.id.navigation_Chat:
+                    transaction(3);
                     return true;
             }
             return false;

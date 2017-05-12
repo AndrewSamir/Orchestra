@@ -2,9 +2,13 @@ package com.samir.andrew.orchestra.Activities;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.constraint.solver.SolverVariable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -39,15 +43,27 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.samir.andrew.orchestra.Adapters.HomePagerAdapter;
 import com.samir.andrew.orchestra.Data.JsonDataPojo;
+import com.samir.andrew.orchestra.Data.UnittDetails.UnitPayment;
 import com.samir.andrew.orchestra.Fragments.AllUnitDetails;
 import com.samir.andrew.orchestra.Fragments.MyUnitsFragment;
 import com.samir.andrew.orchestra.R;
+import com.samir.andrew.orchestra.SQLiteDatabase.DBhelper;
 import com.sdsmdg.tastytoast.TastyToast;
 
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -60,6 +76,8 @@ public class Home extends AppCompatActivity
     public static int fragmentPosition;
     public static Boolean intoUnitDetails = false;
 
+    DBhelper myDB;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +85,9 @@ public class Home extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+        myDB = new DBhelper(this);
+//        myDB.createNewTable("AS-sa-k".replace('-','_'));
 
         //================================//
         //   FirebaseCrash.report(new Exception("My first Android non-fatal error"));
@@ -81,11 +102,39 @@ public class Home extends AppCompatActivity
         mViewPager.setAdapter(adapter);
 
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabsHome);
+        final TabLayout tabLayout = (TabLayout) findViewById(R.id.tabsHome);
         tabLayout.setupWithViewPager(mViewPager);
         tabLayout.getTabAt(0).setText("New Feeds");
         tabLayout.getTabAt(1).setText("My Units");
         tabLayout.getTabAt(2).setText("Messages");
+
+        tabLayout.getTabAt(0).setIcon(getResources().getDrawable(R.drawable.ic_dashboard_black_24dp));
+        tabLayout.getTabAt(1).setIcon(getResources().getDrawable(R.drawable.ic_home_black_24dp));
+        tabLayout.getTabAt(2).setIcon(getResources().getDrawable(R.drawable.ic_notifications_black_24dp));
+
+        tabLayout.getTabAt(0).getIcon().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_IN);
+        tabLayout.getTabAt(1).getIcon().setColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_IN);
+        tabLayout.getTabAt(2).getIcon().setColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_IN);
+
+
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                tab.getIcon().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_IN);
+
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                tab.getIcon().setColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_IN);
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -97,6 +146,20 @@ public class Home extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         navigationView.setItemIconTintList(null);
+
+        KeyboardVisibilityEvent.setEventListener(
+                this,
+                new KeyboardVisibilityEventListener() {
+                    @Override
+                    public void onVisibilityChanged(boolean isOpen) {
+                        // some code depending on keyboard visiblity status
+                        if (isOpen)
+                            tabLayout.setVisibility(View.GONE);
+                        else
+                            tabLayout.setVisibility(View.VISIBLE);
+
+                    }
+                });
 
     }
 
@@ -288,9 +351,12 @@ public class Home extends AppCompatActivity
                             JSONObject jsonObject = new JSONObject(response);
                             if (jsonObject.getInt("status") == 1) {
                                 JSONObject object = jsonObject.getJSONObject("UnitData");
+                                JSONArray jsonArray = jsonObject.getJSONArray("UnitPayment");
+
+
                                 String unitCode = object.getString("UnitCode");
                                 if (isOnline())
-                                    pushDataToFirebase(unitCode, object.toString(), project);
+                                    pushDataToFirebase(unitCode, object.toString(), jsonArray, project);
                                 else {
                                     loadingDialog.dismiss();
                                     TastyToast.makeText(getApplicationContext(), "Connect your Internet Connection and try again", TastyToast.LENGTH_LONG, TastyToast.ERROR);
@@ -324,21 +390,32 @@ public class Home extends AppCompatActivity
         queue.add(stringRequest);
     }
 
-    private void pushDataToFirebase(final String unitKey, String value, final String project) {
+    private void pushDataToFirebase(final String unitKey, String value, final JSONArray jsonArray, final String project) {
         // Write a message to the database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("Users/" + FirebaseAuth.getInstance().getCurrentUser().getUid()
+        final DatabaseReference myRef = database.getReference("Users/" + FirebaseAuth.getInstance().getCurrentUser().getUid()
                 + "/Projects/"
                 + project +
                 "/" + unitKey
-                + "/UnitDetails/");
+        );
 
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().serializeNulls().create();
         JsonDataPojo myPOJO = gson.fromJson(value, JsonDataPojo.class);
 
 
-        myRef.setValue(myPOJO, new DatabaseReference.CompletionListener() {
+        List<UnitPayment> unitPaymentList = new ArrayList<>();
+
+        String jsonOutput = jsonArray.toString();
+        Type listType = new TypeToken<List<UnitPayment>>() {
+        }.getType();
+        List<UnitPayment> posts = (List<UnitPayment>) gson.fromJson(jsonOutput, listType);
+
+        myRef.child("UnitPayment").setValue(posts);
+
+
+        myRef.child("UnitDetails").setValue(myPOJO, new DatabaseReference.CompletionListener() {
             public void onComplete(DatabaseError error, DatabaseReference ref) {
+
                 FirebaseMessaging.getInstance().subscribeToTopic(unitKey);
                 FirebaseMessaging.getInstance().subscribeToTopic(project.replace(' ', '_'));
                 TastyToast.makeText(getApplicationContext(), "Your Passcode Added Correctly", TastyToast.LENGTH_LONG, TastyToast.SUCCESS);

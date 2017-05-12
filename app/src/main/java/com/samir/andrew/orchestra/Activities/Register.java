@@ -13,6 +13,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,7 +40,7 @@ public class Register extends AppCompatActivity {
     EditText name, mail, phone, password, confirmPassword;
     Button register;
     public static TextView signin, birthdate;
-    RelativeLayout relativeLayout;
+    LinearLayout relativeLayout;
 
 
     private FirebaseAuth mAuth;
@@ -56,7 +57,7 @@ public class Register extends AppCompatActivity {
         Typeface custom_font = Typeface.createFromAsset(getAssets(), "oleo_script.ttf");
         tx.setTypeface(custom_font);
 
-        relativeLayout = (RelativeLayout) findViewById(R.id.progressbarRegister);
+        relativeLayout = (LinearLayout) findViewById(R.id.progressLayout);
         relativeLayout.setVisibility(View.GONE);
 
         name = (EditText) findViewById(R.id.editTextNameRegister);
@@ -81,6 +82,8 @@ public class Register extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 if (validateForm()) {
 
                     relativeLayout.setVisibility(View.VISIBLE);

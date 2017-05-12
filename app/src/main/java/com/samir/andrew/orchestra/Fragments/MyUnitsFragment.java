@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ExpandableListView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -31,6 +32,7 @@ import com.samir.andrew.orchestra.Adapters.ExpandableListMyUnitsAdapter;
 import com.samir.andrew.orchestra.Data.UnitDataSingleton;
 import com.samir.andrew.orchestra.Activities.Home;
 import com.samir.andrew.orchestra.R;
+import com.samir.andrew.orchestra.SQLiteDatabase.DBhelper;
 
 import org.w3c.dom.Text;
 
@@ -49,7 +51,7 @@ public class MyUnitsFragment extends Fragment {
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
     DataSnapshot myChild, myChildList;
-    RelativeLayout relativeLayout;
+    LinearLayout relativeLayout;
     Dialog loadingDialog;
     TextView empty;
 
@@ -62,7 +64,7 @@ public class MyUnitsFragment extends Fragment {
         // get the listview
         expListView = (ExpandableListView) v.findViewById(R.id.lvExpFragmentMyUnits);
         empty = (TextView) v.findViewById(R.id.tvEmptyMyUnits);
-        relativeLayout = (RelativeLayout) v.findViewById(R.id.relativeLayoutFragmentMyUnits);
+        relativeLayout = (LinearLayout) v.findViewById(R.id.progressLayout);
 
         PageListener pageListener = new PageListener();
         Home.mViewPager.setOnPageChangeListener(pageListener);
@@ -220,8 +222,6 @@ public class MyUnitsFragment extends Fragment {
                 + "/UnitDetails"
         );
 
-        Log.d("value", "project: " + project + " unit: " + unit);
-
 
         // Read from the database
         myRef.addValueEventListener(new ValueEventListener() {
@@ -251,7 +251,7 @@ public class MyUnitsFragment extends Fragment {
                 } catch (Exception e) {
                     e.printStackTrace();
 
-                    FirebaseCrash.log("read unit data failed from firebase for UID : "+FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    FirebaseCrash.log("read unit data failed from firebase for UID : " + FirebaseAuth.getInstance().getCurrentUser().getUid());
 
                 }
 
@@ -259,7 +259,7 @@ public class MyUnitsFragment extends Fragment {
                 try {
                     transaction(0);
                 } catch (Exception e) {
-                    FirebaseCrash.log("transaction for UID : "+FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    FirebaseCrash.log("transaction for UID : " + FirebaseAuth.getInstance().getCurrentUser().getUid());
 
                     e.printStackTrace();
                 }
@@ -308,6 +308,8 @@ public class MyUnitsFragment extends Fragment {
     }
 
     private void deleteUnitFromFirebase(String projectName, String unitCode) {
+
+
         FirebaseMessaging.getInstance().unsubscribeFromTopic(unitCode);
         FirebaseMessaging.getInstance().unsubscribeFromTopic(projectName.replace(' ', '_'));
 
@@ -317,6 +319,7 @@ public class MyUnitsFragment extends Fragment {
         );
         myRef.child(projectName).child(unitCode).removeValue();
 
+        // myDB.deleteUnitTable(unitCode);
     }
 
 }

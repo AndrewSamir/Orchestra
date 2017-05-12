@@ -1,28 +1,31 @@
 package com.samir.andrew.orchestra.Fragments;
 
-import android.app.ActivityOptions;
-import android.content.Intent;
-import android.os.Build;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.widget.LinearLayout;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.samir.andrew.orchestra.Adapters.AdsPagerAdapter;
-import com.samir.andrew.orchestra.Adapters.FeedsAdapter;
+import com.samir.andrew.orchestra.Adapters.NewFeedsAdapter;
 import com.samir.andrew.orchestra.Data.FeedsData;
 import com.samir.andrew.orchestra.Helper.CustomViewPager;
 import com.samir.andrew.orchestra.R;
-import com.samir.andrew.orchestra.Activities.TestTransActivity;
 import com.viewpagerindicator.CirclePageIndicator;
 
 import java.util.ArrayList;
-
-import in.srain.cube.views.GridViewWithHeaderAndFooter;
 
 /**
  * Created by andre on 11-Apr-17.
@@ -30,20 +33,29 @@ import in.srain.cube.views.GridViewWithHeaderAndFooter;
 
 public class FeedsFragment extends Fragment {
 
-    private GridViewWithHeaderAndFooter gridView;
+    private RecyclerView gridView;
 
     ArrayList<FeedsData> arrayListFeedData;
-    FeedsAdapter feedsAdapter;
+    NewFeedsAdapter feedsAdapter;
     private CustomViewPager mViewPager;
+    CirclePageIndicator mIndicator;
+    ArrayList<String> listImages;
+    LinearLayout prgressLayout;
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_feeds, null);
 
-       // HelperCode.getAllUnits(getActivity());
-        gridView = (GridViewWithHeaderAndFooter) v.findViewById(R.id.gridViewFeedsFragment);
-        setGridViewHeaderAndFooter();
+        // HelperCode.getAllUnits(getActivity());
+        gridView = (RecyclerView) v.findViewById(R.id.gridViewFeedsFragment);
+
+        mViewPager = (CustomViewPager) v.findViewById(R.id.viewPagerFeeds);
+        mIndicator = (CirclePageIndicator) v.findViewById(R.id.indicator);
+        prgressLayout = (LinearLayout) v.findViewById(R.id.progressLayout);
+
+        setSlidingImages();
 
 
    /*     gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -59,22 +71,7 @@ public class FeedsFragment extends Fragment {
             }
         });*/
 
-
-        arrayListFeedData = new ArrayList<>();
-        arrayListFeedData.add(new FeedsData("string 1"));
-        arrayListFeedData.add(new FeedsData("string 2"));
-        arrayListFeedData.add(new FeedsData("string 3"));
-        arrayListFeedData.add(new FeedsData("string 4"));
-        arrayListFeedData.add(new FeedsData("string 5"));
-        arrayListFeedData.add(new FeedsData("string 6"));
-
-        feedsAdapter = new FeedsAdapter(getActivity(), arrayListFeedData);
-
-
-        // listView.setAdapter(feedsAdapter);
-        gridView.setAdapter(feedsAdapter);
-        //  scroll();
-
+        getAdsDataFromFirebase();
 
         return v;
     }
@@ -93,26 +90,111 @@ public class FeedsFragment extends Fragment {
         }, 3000);
     }
 
-    private void setGridViewHeaderAndFooter() {
-        LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+    private void setSlidingImages() {
 
-        View headerView = layoutInflater.inflate(R.layout.test_grid_header, null, false);
 
-        ArrayList<String> list = new ArrayList<>();
-        list.add("1");
-        list.add("1");
-        list.add("1");
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("SlidingImages/");
+        myRef.keepSynced(true);
 
-        // locate views
-        mViewPager = (CustomViewPager) headerView.findViewById(R.id.viewPagerFeeds);
-        mViewPager.setPagingEnabled(false);
-        AdsPagerAdapter adsPagerAdapter = new AdsPagerAdapter(getActivity(), list);
-        mViewPager.setAdapter(adsPagerAdapter);
+        // Read from the database
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+//                String value = dataSnapshot.getValue(String.class);
+                listImages = new ArrayList<>();
 
-        CirclePageIndicator mIndicator = (CirclePageIndicator) headerView.findViewById(R.id.indicator);
-        mIndicator.setViewPager(mViewPager);
+                Iterable<DataSnapshot> myChildren = dataSnapshot.getChildren();
 
-        scroll();
-        gridView.addHeaderView(headerView);
+                while (myChildren.iterator().hasNext()) {
+
+                    DataSnapshot myChild = myChildren.iterator().next();
+
+                    listImages.add(myChild.getValue().toString());
+                }
+
+                mViewPager.setPagingEnabled(false);
+                AdsPagerAdapter adsPagerAdapter = new AdsPagerAdapter(getActivity(), listImages);
+                mViewPager.setAdapter(adsPagerAdapter);
+
+                mIndicator.setViewPager(mViewPager);
+
+                scroll();
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Log.d("error", error.toString());
+                // Failed to read value
+            }
+        });
+
+
+    }
+
+    private void getAdsDataFromFirebase() {
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("advertises/");
+        myRef.keepSynced(true);
+
+        // Read from the database
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+//                String value = dataSnapshot.getValue(String.class);
+                arrayListFeedData = new ArrayList<>();
+
+                Iterable<DataSnapshot> myChildren = dataSnapshot.getChildren();
+
+                while (myChildren.iterator().hasNext()) {
+
+                    DataSnapshot myChild = myChildren.iterator().next();
+
+                    arrayListFeedData.add(new FeedsData(myChild.child("body").getValue().toString(),
+                            myChild.child("date").getValue().toString(),
+                            myChild.child("image").getValue().toString(),
+                            myChild.child("title").getValue().toString()));
+                }
+
+
+                feedsAdapter = new NewFeedsAdapter(arrayListFeedData, getActivity());
+
+                RecyclerView.LayoutManager mLayoutManager;
+
+                //  mRecycler.hideProgress();
+                if (isTablet()) {
+                    mLayoutManager = new GridLayoutManager(getContext(), 3);
+
+                } else {
+                    mLayoutManager = new GridLayoutManager(getContext(), 2);
+                }
+                gridView.setLayoutManager(mLayoutManager);
+
+                prgressLayout.setVisibility(View.GONE);
+                // listView.setAdapter(feedsAdapter);
+                gridView.setAdapter(feedsAdapter);
+                //  scroll();
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Log.d("error", error.toString());
+                // Failed to read value
+            }
+        });
+    }
+
+    private boolean isTablet() {
+        return (getResources().getConfiguration().screenLayout
+                & Configuration.SCREENLAYOUT_SIZE_MASK)
+                >= Configuration.SCREENLAYOUT_SIZE_LARGE;
     }
 }
+

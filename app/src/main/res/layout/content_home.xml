@@ -13,20 +13,8 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/containerHome"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="7.9"
+        android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tabsHome"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1.1"
-        android:background="@color/colorPrimary"
-        app:tabIndicatorColor="#ffffff"
-        app:tabSelectedTextColor="#000"
-        app:tabTextAppearance="@style/MineCustomTabText"
-        app:tabTextColor="#fff" />
 
 
 </LinearLayout>

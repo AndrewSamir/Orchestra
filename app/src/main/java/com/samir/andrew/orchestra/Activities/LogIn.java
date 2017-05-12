@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,7 +33,7 @@ public class LogIn extends AppCompatActivity {
     EditText mail, password;
     Button signin;
     TextView register;
-    RelativeLayout relative;
+    LinearLayout relative;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,12 +51,13 @@ public class LogIn extends AppCompatActivity {
 
         signin = (Button) findViewById(R.id.buttonSignIn);
         register = (TextView) findViewById(R.id.textViewRegisterLogin);
-        relative = (RelativeLayout) findViewById(R.id.progressbarLogin);
+        relative = (LinearLayout) findViewById(R.id.progressLayout);
 
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 if (vaildForm()) {
                     hideKeyboard();
                     relative.setVisibility(View.VISIBLE);

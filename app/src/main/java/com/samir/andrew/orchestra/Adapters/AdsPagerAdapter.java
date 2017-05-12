@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 
 
 import com.samir.andrew.orchestra.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -23,16 +24,11 @@ public class AdsPagerAdapter extends PagerAdapter {
     ArrayList<String> list;
     LayoutInflater inflater;
 
-    int[] mResources = {
-            R.drawable.p1,
-            R.drawable.p2,
-            R.drawable.p3
-    };
 
     public AdsPagerAdapter(Activity activity, ArrayList<String> list) {
         this.activity = activity;
         this.list = list;
-        inflater=activity.getLayoutInflater();
+        inflater = activity.getLayoutInflater();
     }
 
     @Override
@@ -44,17 +40,22 @@ public class AdsPagerAdapter extends PagerAdapter {
     public boolean isViewFromObject(View view, Object object) {
         return view == ((LinearLayout) object);
     }
+
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         View itemView = inflater.inflate(R.layout.pager_item, container, false);
 
         ImageView imageView = (ImageView) itemView.findViewById(R.id.imageView4);
-        imageView.setImageResource(mResources[position]);
-
+        Picasso.with(activity)
+                .load(list.get(position))
+                .error(R.drawable.orchestra_icon)
+                .placeholder(R.drawable.orchestra_icon)
+                .into(imageView);
         container.addView(itemView);
 
         return itemView;
     }
+
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView((LinearLayout) object);

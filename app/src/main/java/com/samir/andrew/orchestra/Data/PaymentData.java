@@ -4,15 +4,19 @@ package com.samir.andrew.orchestra.Data;
 
 public class PaymentData {
 
-    private int unitclientcode;
-    private String paymentTypeName;
-    private int installmentAmount;
-    private String dueDate;
-    private boolean paid;
-    private int paidAmount;
-    private String dateOfPayment;
+    int unitclientcode;
+    String paymentTypeName;
+    int installmentAmount;
+    String dueDate;
+    boolean paid;
+    int paidAmount;
+    String dateOfPayment;
 
-    public PaymentData(int unitclientcode, String paymentTypeName, int installmentAmount, String dueDate, boolean paid, int paidAmount, String dateOfPayment) {
+    public PaymentData(int unitclientcode, String paymentTypeName,
+                       int installmentAmount, String dueDate,
+                       boolean paid, int paidAmount,
+                       String dateOfPayment) {
+
         this.unitclientcode = unitclientcode;
         this.paymentTypeName = paymentTypeName;
         this.installmentAmount = installmentAmount;

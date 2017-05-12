@@ -40,12 +40,12 @@
                 android:id="@+id/editTextNameRegister"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:paddingRight="10dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/edit_text_background_white"
                 android:hint="Name *"
                 android:inputType="textPersonName"
-                android:paddingLeft="20dp" />
+                android:paddingLeft="20dp"
+                android:paddingRight="10dp" />
 
             <EditText
                 android:id="@+id/editTextMailRegister"
@@ -54,13 +54,12 @@
                 android:layout_marginTop="20dp"
                 android:background="@drawable/edit_text_background_white"
                 android:ems="10"
-                android:paddingRight="10dp"
                 android:hint="Email *"
                 android:inputType="textEmailAddress"
-                android:paddingLeft="20dp" />
+                android:paddingLeft="20dp"
+                android:paddingRight="10dp" />
 
             <EditText
-                android:paddingRight="10dp"
                 android:id="@+id/editTextPhoneRegister"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -69,11 +68,11 @@
                 android:ems="10"
                 android:hint="Mobile Number *"
                 android:inputType="phone"
-                android:paddingLeft="20dp" />
+                android:paddingLeft="20dp"
+                android:paddingRight="10dp" />
 
 
             <TextView
-                android:paddingRight="10dp"
                 android:id="@+id/editTextBirthdate"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -85,11 +84,11 @@
                 android:hint="Birthdate *"
                 android:onClick="showDatePickerDialog"
                 android:paddingLeft="20dp"
+                android:paddingRight="10dp"
                 android:textSize="20dp" />
 
 
             <EditText
-                android:paddingRight="10dp"
                 android:id="@+id/editTextPasswordRegister"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -98,10 +97,10 @@
                 android:ems="10"
                 android:hint="Password *"
                 android:inputType="textPassword"
-                android:paddingLeft="20dp" />
+                android:paddingLeft="20dp"
+                android:paddingRight="10dp" />
 
             <EditText
-                android:paddingRight="10dp"
                 android:id="@+id/editTextConfirmPAsswordRegister"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -110,7 +109,8 @@
                 android:ems="10"
                 android:hint="Confirm Password *"
                 android:inputType="textPassword"
-                android:paddingLeft="20dp" />
+                android:paddingLeft="20dp"
+                android:paddingRight="10dp" />
 
             <Button
                 android:id="@+id/buttonRegister"
@@ -136,16 +136,12 @@
         </LinearLayout>
     </ScrollView>
 
-    <RelativeLayout
-        android:id="@+id/progressbarRegister"
+    <LinearLayout
+        android:id="@+id/progressLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimary"
         android:visibility="gone">
 
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true" />
-    </RelativeLayout>
+        <include layout="@layout/prograss_loading" />
+    </LinearLayout>
 </FrameLayout>

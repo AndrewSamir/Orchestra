@@ -27,13 +27,27 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage message) {
 
-      //  FirebaseCrash.report(new Exception(message.getData().get("message")));
+        //  FirebaseCrash.report(new Exception(message.getData().get("message")));
 
-      // String image = message.getNotification().getIcon();
-        String title = message.getData().get("title");
-        String text = message.getData().get("text");
-       // String sound = message.getNotification().getSound();
+        // String image = message.getNotification().getIcon();
 
+        // String sound = message.getNotification().getSound();
+        String text = null;
+        String title = null;
+        if (message.getData().size() > 0) {
+            Log.d(TAG, "Message data payload: " + message.getData());
+
+            title = message.getData().get("title");
+            text = message.getData().get("text");
+        }
+
+        // Check if message contains a notification payload.
+        if (message.getNotification() != null) {
+            Log.d(TAG, "Message Notification Body: " + message.getNotification().getBody());
+            text = message.getNotification().getBody();
+            title = message.getNotification().getTitle();
+
+        }
 
         int id = 0;
         Object obj = message.getData().get("id");
@@ -41,9 +55,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             id = Integer.valueOf(obj.toString());
         }
 
-       // this.sendNotification(new NotificationData(image, id, title, text, sound));
+        // this.sendNotification(new NotificationData(image, id, title, text, sound));
 
-        this.sendNotification(new NotificationData(null,771025567,title,text,"aa"));
+        this.sendNotification(new NotificationData(null, 771025567, title, text, "aa"));
     }
 
     /**

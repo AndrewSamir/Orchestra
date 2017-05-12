@@ -20,9 +20,9 @@ public class SplashScreen extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthListener;
 
     public static String path;
-    private static FirebaseDatabase mDatabase;
 
     public static int fromDate;
+    static boolean calledAlready = false;
 
 
     @Override
@@ -31,13 +31,12 @@ public class SplashScreen extends AppCompatActivity {
         Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_splash_screen);
 
-        mDatabase = FirebaseDatabase.getInstance();
 
-        if (mDatabase == null) {
-            FirebaseDatabase database = FirebaseDatabase.getInstance();
-            database.setPersistenceEnabled(true);
-            // ...
+        if (!calledAlready) {
+            FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+            calledAlready = true;
         }
+
         mAuth = FirebaseAuth.getInstance();
 
         // to send crash repost to firebase
