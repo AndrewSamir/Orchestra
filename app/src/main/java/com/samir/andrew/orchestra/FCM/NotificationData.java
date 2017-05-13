@@ -10,6 +10,10 @@ public class NotificationData {
     private String textMessage;
     private String sound;
 
+    private String project;
+    private String unit;
+
+
     public NotificationData() {}
 
     public NotificationData(String imageName, int id, String title, String textMessage, String sound) {
@@ -18,6 +22,16 @@ public class NotificationData {
         this.title = title;
         this.textMessage = textMessage;
         this.sound = sound;
+    }
+
+    public NotificationData(String imageName, int id, String title, String textMessage, String sound, String project, String unit) {
+        this.imageName = imageName;
+        this.id = id;
+        this.title = title;
+        this.textMessage = textMessage;
+        this.sound = sound;
+        this.project = project;
+        this.unit = unit;
     }
 
     public String getImageName() {
@@ -60,5 +74,19 @@ public class NotificationData {
         this.sound = sound;
     }
 
+    public String getProject() {
+        return project;
+    }
 
+    public void setProject(String project) {
+        this.project = project;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
 }

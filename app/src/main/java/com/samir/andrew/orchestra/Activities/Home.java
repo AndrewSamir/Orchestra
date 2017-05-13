@@ -75,6 +75,8 @@ public class Home extends AppCompatActivity
     EditText text;
     public static int fragmentPosition;
     public static Boolean intoUnitDetails = false;
+    public static String project = null;
+    public static String unit = null;
 
     DBhelper myDB;
 
@@ -160,6 +162,15 @@ public class Home extends AppCompatActivity
 
                     }
                 });
+
+
+        Intent intent = getIntent();
+        if (intent.getIntExtra("fromNotification", 0) == 1) {
+
+            project = intent.getStringExtra("project");
+            unit = intent.getStringExtra("unit");
+        }
+        mViewPager.setCurrentItem(intent.getIntExtra("fromNotification", 0));
 
     }
 

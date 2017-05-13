@@ -69,6 +69,9 @@ public class MyUnitsFragment extends Fragment {
         PageListener pageListener = new PageListener();
         Home.mViewPager.setOnPageChangeListener(pageListener);
 
+        if (Home.project != null)
+            getMyUnitDetailsFromFirebase(Home.project, Home.unit);
+
         if (Home.fragmentPosition == 1)
             getMyUnitsFromFirebase();
 
@@ -107,6 +110,7 @@ public class MyUnitsFragment extends Fragment {
                 return true;
             }
         });
+
 
         return v;
     }

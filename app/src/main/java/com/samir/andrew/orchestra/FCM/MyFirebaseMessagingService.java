@@ -34,30 +34,39 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // String sound = message.getNotification().getSound();
         String text = null;
         String title = null;
+        String sound = null;
+        String id = null;
+        String project = null;
+        String unit = null;
+
         if (message.getData().size() > 0) {
             Log.d(TAG, "Message data payload: " + message.getData());
 
             title = message.getData().get("title");
             text = message.getData().get("text");
+            sound = message.getData().get("sound");
+            id = message.getData().get("id");
+            project = message.getData().get("project");
+            unit = message.getData().get("unit");
         }
 
         // Check if message contains a notification payload.
-        if (message.getNotification() != null) {
+   /*     if (message.getNotification() != null) {
             Log.d(TAG, "Message Notification Body: " + message.getNotification().getBody());
             text = message.getNotification().getBody();
             title = message.getNotification().getTitle();
+            sound = message.getNotification().getSound();
 
-        }
 
-        int id = 0;
-        Object obj = message.getData().get("id");
-        if (obj != null) {
-            id = Integer.valueOf(obj.toString());
-        }
+        }*/
+
 
         // this.sendNotification(new NotificationData(image, id, title, text, sound));
 
-        this.sendNotification(new NotificationData(null, 771025567, title, text, "aa"));
+        if (Integer.parseInt(id) == 1)
+            this.sendNotification(new NotificationData(null, Integer.parseInt(id), title, text, sound, project, unit));
+        else
+            this.sendNotification(new NotificationData(null, Integer.parseInt(id), title, text, sound));
     }
 
     /**
@@ -69,6 +78,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         Intent intent = new Intent(this, Home.class);
         intent.putExtra(NotificationData.TEXT, notificationData.getTextMessage());
+
+        intent.putExtra("fromNotification", notificationData.getId());
+
+        if (notificationData.getId() == 1) {
+
+            intent.putExtra("project", notificationData.getProject());
+            intent.putExtra("unit", notificationData.getUnit());
+        }
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,

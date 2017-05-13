@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
+import com.samir.andrew.orchestra.Activities.Home;
 import com.samir.andrew.orchestra.R;
 
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
@@ -41,8 +42,10 @@ public class AllUnitDetails extends Fragment {
         px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 15, r.getDisplayMetrics());
         lp = new LinearLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT);
-
-        transaction(0);
+        if (Home.project != null)
+            transaction(3);
+        else
+            transaction(0);
 
         final BottomNavigationView navigation = (BottomNavigationView) v.findViewById(R.id.navigationFragmentUnitAllDetails);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -81,6 +84,8 @@ public class AllUnitDetails extends Fragment {
             lp.setMargins((int) px, (int) px, (int) px, (int) px);
             frameLayout.setLayoutParams(lp);
         } else if (fragment == 3) {
+            Home.project = null;
+            Home.unit = null;
             newFragment = new ChatUnitFragment();
             lp.setMargins(0, 0, 0, 0);
             frameLayout.setLayoutParams(lp);

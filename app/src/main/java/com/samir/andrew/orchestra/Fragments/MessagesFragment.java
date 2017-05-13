@@ -73,6 +73,8 @@ public class MessagesFragment extends Fragment {
 
                 teetArrayAdapter = new NotificationMessagesAdapter(getActivity(), R.layout.item_notification_message, notificationModelArrayList);
                 listView.setAdapter(teetArrayAdapter);
+                listView.setSelection(listView.getAdapter().getCount()-1);
+
             }
 
             @Override

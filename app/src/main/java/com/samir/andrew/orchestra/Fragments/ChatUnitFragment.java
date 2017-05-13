@@ -69,6 +69,8 @@ public class ChatUnitFragment extends Fragment {
         chatMsgAdapter = new ChatMsgAdapter(chatMessageModels);
         mLayoutManager = new LinearLayoutManager(this.getActivity());
         mLayoutManager.setStackFromEnd(true);
+        recyclerView.scrollToPosition(chatMessageModels.size() - 1);
+
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(chatMsgAdapter);
@@ -246,7 +248,7 @@ public class ChatUnitFragment extends Fragment {
                 false,
                 false,
                 true,
-                "7-5-2017 3:39PM"));
+                currentDateTimeString));
 
         dataSent = true;
 
@@ -254,7 +256,7 @@ public class ChatUnitFragment extends Fragment {
         mLayoutManager.setStackFromEnd(true);
         recyclerView.scrollToPosition(chatMessageModels.size() - 1);
 
-        addMessageToDatabase(key, etMsg.getText().toString(), "0", "0", "1", "7-5-2017 3:39PM");
+        addMessageToDatabase(key, etMsg.getText().toString(), "0", "0", "1", currentDateTimeString);
 
 
         etMsg.setText("");
