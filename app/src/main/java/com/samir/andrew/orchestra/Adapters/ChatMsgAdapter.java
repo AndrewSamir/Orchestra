@@ -10,6 +10,8 @@ import android.widget.TextView;
 import com.samir.andrew.orchestra.Data.ChatMessageModel;
 import com.samir.andrew.orchestra.R;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -58,8 +60,12 @@ public class ChatMsgAdapter extends RecyclerView.Adapter<ChatMsgAdapter.MyViewHo
     public void onBindViewHolder(MyViewHolder holder, int position) {
         ChatMessageModel chatMessageModel = chatMessageModelList.get(position);
 
-        holder.body.setText(chatMessageModel.getBODY());
-        holder.time.setText(chatMessageModel.getTIME());
+        SimpleDateFormat format = new SimpleDateFormat("dd-MMM-yy  hh:mm a");
+        String date = format.format(Date.parse(chatMessageModel.getCreatedAt()));
+
+
+        holder.body.setText(chatMessageModel.getText());
+        holder.time.setText(date);
     }
 
     @Override
@@ -72,7 +78,7 @@ public class ChatMsgAdapter extends RecyclerView.Adapter<ChatMsgAdapter.MyViewHo
 
         int sender;
 
-        if (chatMessageModelList.get(position).getSENDER())
+        if (chatMessageModelList.get(position).getSENDER().equals("1"))
             sender = 1;
         else
             sender = 0;

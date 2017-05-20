@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.samir.andrew.orchestra.Data.FeedsData;
 import com.samir.andrew.orchestra.R;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -90,8 +91,9 @@ public class FeedsAdapter extends BaseAdapter {
         mViewHolder.body.setText(dataNews.getBody());
         mViewHolder.date.setText(dataNews.getDate());
         Picasso.with(activity).
-                load(dataNews.getImage()).
-                error(R.drawable.orchestra_icon)
+                load(dataNews.getImage())
+                .error(R.drawable.orchestra_icon)
+                .networkPolicy(NetworkPolicy.OFFLINE)
                 .placeholder(R.drawable.orchestra_icon)
                 .into(mViewHolder.imageView);
 

@@ -32,6 +32,8 @@ public class AllUnitDetails extends Fragment {
     LinearLayout.LayoutParams lp;
     float px;
 
+     BottomNavigationView navigation;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -42,14 +44,17 @@ public class AllUnitDetails extends Fragment {
         px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 15, r.getDisplayMetrics());
         lp = new LinearLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT);
-        if (Home.project != null)
-            transaction(3);
+
+
+       navigation = (BottomNavigationView) v.findViewById(R.id.navigationFragmentUnitAllDetails);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        if (Home.project != null) {
+            View view = navigation.findViewById(R.id.navigation_Chat);
+            view.performClick();
+          //  transaction(3);
+        }
         else
             transaction(0);
-
-        final BottomNavigationView navigation = (BottomNavigationView) v.findViewById(R.id.navigationFragmentUnitAllDetails);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
         KeyboardVisibilityEvent.setEventListener(
                 getActivity(),
                 new KeyboardVisibilityEventListener() {
@@ -66,6 +71,7 @@ public class AllUnitDetails extends Fragment {
 
         return v;
     }
+
 
     private void transaction(int fragment) {
 

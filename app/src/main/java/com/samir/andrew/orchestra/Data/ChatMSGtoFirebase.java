@@ -8,33 +8,30 @@ import java.io.Serializable;
 
 public class ChatMSGtoFirebase implements Serializable {
 
-    public String body;
-    public String delivered;
-    public String seen;
-    public String sender;
-    public String time;
+    public String _id;
+    public String createdAt;
+    public String text;
+
+
+    public user user;
 
     public ChatMSGtoFirebase() {
 
     }
 
-    public void setBODY(String BODY) {
-        this.body = BODY;
+    public void set_id(String _id) {
+        this._id = _id;
     }
 
-    public void setDELIVERED(String DELIVERED) {
-        this.delivered = DELIVERED;
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public void setSEEN(String SEEN) {
-        this.seen = SEEN;
+    public void setText(String text) {
+        this.text = text;
     }
 
-    public void setSENDER(String SENDER) {
-        this.sender = SENDER;
-    }
-
-    public void setTIME(String TIME) {
-        this.time = TIME;
+    public void setUser(user user) {
+        this.user = user;
     }
 }

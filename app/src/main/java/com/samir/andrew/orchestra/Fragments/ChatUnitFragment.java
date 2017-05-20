@@ -1,6 +1,5 @@
 package com.samir.andrew.orchestra.Fragments;
 
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -23,12 +22,11 @@ import com.samir.andrew.orchestra.Adapters.ChatMsgAdapter;
 import com.samir.andrew.orchestra.Data.ChatMSGtoFirebase;
 import com.samir.andrew.orchestra.Data.ChatMessageModel;
 import com.samir.andrew.orchestra.Data.UnitDataSingleton;
+import com.samir.andrew.orchestra.Data.user;
 import com.samir.andrew.orchestra.R;
-import com.samir.andrew.orchestra.SQLiteDatabase.DBhelper;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -37,7 +35,7 @@ import java.util.Date;
 
 public class ChatUnitFragment extends Fragment {
 
-    DBhelper myDB;
+    //    DBhelper myDB;
     EditText etMsg;
     de.hdodenhof.circleimageview.CircleImageView btnSend;
     RecyclerView recyclerView;
@@ -53,18 +51,18 @@ public class ChatUnitFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_chat_unit, null);
 
-        myDB = new DBhelper(getContext());
+        //  myDB = new DBhelper(getContext());
 
 
         //    myDB.deleteUnitTable(UnitDataSingleton.getInstance().getUnitCode().replace('-', '_'));
 
-        myDB.createNewTable(UnitDataSingleton.getInstance().getUnitCode().replace('-', '_'));
+        //    myDB.createNewTable(UnitDataSingleton.getInstance().getUnitCode().replace('-', '_'));
 
         etMsg = (EditText) v.findViewById(R.id.etFragmentChatUnitMsg);
         btnSend = (de.hdodenhof.circleimageview.CircleImageView) v.findViewById(R.id.ivSendMsg);
         recyclerView = (RecyclerView) v.findViewById(R.id.chatRecyclerView);
 
-        setMessages();
+        //setMessages();
 
         chatMsgAdapter = new ChatMsgAdapter(chatMessageModels);
         mLayoutManager = new LinearLayoutManager(this.getActivity());
@@ -108,55 +106,24 @@ public class ChatUnitFragment extends Fragment {
 
                 // Cursor c = myDB.getAllMSgs(UnitDataSingleton.getInstance().getUnitCode().replace('-', '_'));
 
-                if (chatMessageModels.size() == 0) {
-                    String BODY = dataSnapshot.child("body").getValue().toString();
-                    String DELIVERED = dataSnapshot.child("delivered").getValue().toString();
-                    String SEEN = dataSnapshot.child("seen").getValue().toString();
-                    String SENDER = dataSnapshot.child("sender").getValue().toString();
-                    String TIME = dataSnapshot.child("time").getValue().toString();
+                String TEXT = dataSnapshot.child("text").getValue().toString();
+                String _ID = dataSnapshot.child("_id").getValue().toString();
+                String SENDER = dataSnapshot.child("user").child("_id").getValue().toString();
+                String CreatedAt = dataSnapshot.child("createdAt").getValue().toString();
 
 
-                    chatMessageModels.add(new ChatMessageModel(dataSnapshot.getKey(),
-                            BODY,
-                            (Integer.parseInt(DELIVERED) == 1),
-                            (Integer.parseInt(SEEN) == 1),
-                            (Integer.parseInt(SENDER) == 1),
-                            TIME));
+                chatMessageModels.add(new ChatMessageModel(dataSnapshot.getKey(),
+                        _ID,
+                        CreatedAt,
+                        TEXT,
+                        SENDER));
 
-                    chatMsgAdapter.notifyItemInserted(chatMessageModels.size() - 1);
-                    mLayoutManager.setStackFromEnd(true);
-                    recyclerView.scrollToPosition(chatMessageModels.size() - 1);
+                chatMsgAdapter.notifyItemInserted(chatMessageModels.size() - 1);
+                mLayoutManager.setStackFromEnd(true);
+                recyclerView.scrollToPosition(chatMessageModels.size() - 1);
 
-                    addMessageToDatabase(dataSnapshot.getKey(), BODY, DELIVERED, SEEN, SENDER, TIME);
+                //   addMessageToDatabase(dataSnapshot.getKey(), BODY, DELIVERED, SEEN, SENDER, TIME);
 
-
-                } else {
-                    if (chatMessageModels.get(chatMessageModels.size() - 1).getKEY().equals(s)) {
-
-                        String BODY = dataSnapshot.child("body").getValue().toString();
-                        String DELIVERED = dataSnapshot.child("delivered").getValue().toString();
-                        String SEEN = dataSnapshot.child("seen").getValue().toString();
-                        String SENDER = dataSnapshot.child("sender").getValue().toString();
-                        String TIME = dataSnapshot.child("time").getValue().toString();
-
-
-                        chatMessageModels.add(new ChatMessageModel(dataSnapshot.getKey(),
-                                BODY,
-                                (Integer.parseInt(DELIVERED) == 1),
-                                (Integer.parseInt(SEEN) == 1),
-                                (Integer.parseInt(SENDER) == 1),
-                                TIME));
-
-                        chatMsgAdapter.notifyItemInserted(chatMessageModels.size() - 1);
-                        mLayoutManager.setStackFromEnd(true);
-                        recyclerView.scrollToPosition(chatMessageModels.size() - 1);
-
-                        addMessageToDatabase(dataSnapshot.getKey(), BODY, DELIVERED, SEEN, SENDER, TIME);
-
-
-                    }
-
-                }
 
             }
 
@@ -183,7 +150,7 @@ public class ChatUnitFragment extends Fragment {
         });
     }
 
-    private void addMessageToDatabase(String key, String msg, String deliverd, String seen, String sender, String time) {
+   /* private void addMessageToDatabase(String key, String msg, String deliverd, String seen, String sender, String time) {
         myDB.ADD_NEW_MSG(key,
                 msg,
                 Integer.parseInt(deliverd),
@@ -191,9 +158,9 @@ public class ChatUnitFragment extends Fragment {
                 Integer.parseInt(sender),
                 time,
                 UnitDataSingleton.getInstance().getUnitCode().replace('-', '_'));
-    }
+    }*/
 
-    private void setMessages() {
+  /*  private void setMessages() {
         chatMessageModels = new ArrayList<>();
 
         Cursor c = myDB.getAllMSgs(UnitDataSingleton.getInstance().getUnitCode().replace('-', '_'));
@@ -216,7 +183,7 @@ public class ChatUnitFragment extends Fragment {
 
         }
 
-    }
+    }*/
 
     private void addnewMSG() {
 
@@ -234,29 +201,30 @@ public class ChatUnitFragment extends Fragment {
                 "/ChatMessages/");
         String key = myRef.push().getKey();
 
+        user user = new user();
+        user.set_id("1");
         ChatMSGtoFirebase chatMessageModel = new ChatMSGtoFirebase();
-        chatMessageModel.setBODY(etMsg.getText().toString());
-        chatMessageModel.setDELIVERED("0");
-        chatMessageModel.setSEEN("0");
-        chatMessageModel.setSENDER("1");
-        chatMessageModel.setTIME(currentDateTimeString);
+        chatMessageModel.setText(etMsg.getText().toString());
+        chatMessageModel.set_id(key);
+        chatMessageModel.setCreatedAt(currentDateTimeString);
+        chatMessageModel.setUser(user);
         myRef.child(key).setValue(chatMessageModel);
 
 
-        chatMessageModels.add(new ChatMessageModel(key,
+      /*  chatMessageModels.add(new ChatMessageModel(key,
                 etMsg.getText().toString(),
                 false,
                 false,
                 true,
-                currentDateTimeString));
+                currentDateTimeString));*/
 
-        dataSent = true;
+      /*  dataSent = true;
 
         chatMsgAdapter.notifyItemInserted(chatMessageModels.size() - 1);
         mLayoutManager.setStackFromEnd(true);
-        recyclerView.scrollToPosition(chatMessageModels.size() - 1);
+        recyclerView.scrollToPosition(chatMessageModels.size() - 1);*/
 
-        addMessageToDatabase(key, etMsg.getText().toString(), "0", "0", "1", currentDateTimeString);
+        //addMessageToDatabase(key, etMsg.getText().toString(), "0", "0", "1", currentDateTimeString);
 
 
         etMsg.setText("");

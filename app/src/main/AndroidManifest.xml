@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.samir.andrew.orchestra">
 
-<uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:hardwareAccelerated="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="android:allowBackup">
         <activity
             android:name=".Activities.Home"
             android:label="@string/app_name"
-            android:windowSoftInputMode="adjustPan"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.Home" />
 
@@ -25,8 +27,7 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".FCM.MyFirebaseInstanceIDService"
-           >
+        <service android:name=".FCM.MyFirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
@@ -64,7 +65,6 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".Activities.SplashScreen"
@@ -91,9 +91,20 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="3b9c7f980f92f6963cd5070716c2b211ac2e0af3" />
+
+        <activity
+            android:name=".Activities.AdvertEndPage"
+            android:label="@string/title_activity_advert_end_page"
+            android:parentActivityName=".Activities.Home"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.samir.andrew.orchestra.Activities.Home" />
+        </activity>
     </application>
 
 </manifest>

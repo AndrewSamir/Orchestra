@@ -10,6 +10,9 @@ import android.widget.TextView;
 import com.samir.andrew.orchestra.Data.NotificationModel;
 import com.samir.andrew.orchestra.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -52,9 +55,14 @@ public class NotificationMessagesAdapter extends ArrayAdapter<NotificationModel>
             convertView.setTag(holder);
         }
 
+        SimpleDateFormat format = new SimpleDateFormat("dd-MMM-yy  hh:mm a");
+        String date = format.format(Date.parse(notificationModel.getTime()));
+
+
+
         //set message content
         holder.msg.setText(notificationModel.getText());
-        holder.time.setText(notificationModel.getTime());
+        holder.time.setText(date);
 
 
         return convertView;
@@ -74,7 +82,7 @@ public class NotificationMessagesAdapter extends ArrayAdapter<NotificationModel>
     }
 
     private class ViewHolder {
-        private TextView msg,time;
+        private TextView msg, time;
 
         public ViewHolder(View v) {
 

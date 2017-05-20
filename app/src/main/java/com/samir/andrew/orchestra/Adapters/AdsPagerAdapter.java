@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 
 
 import com.samir.andrew.orchestra.R;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -49,6 +50,7 @@ public class AdsPagerAdapter extends PagerAdapter {
         Picasso.with(activity)
                 .load(list.get(position))
                 .error(R.drawable.orchestra_icon)
+                .networkPolicy(NetworkPolicy.OFFLINE)
                 .placeholder(R.drawable.orchestra_icon)
                 .into(imageView);
         container.addView(itemView);
