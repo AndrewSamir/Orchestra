@@ -7,4 +7,11 @@
     android:background="@color/colorPrimary"
     tools:context="com.samir.andrew.orchestra.Activities.SplashScreen">
 
+    <ImageView
+        android:layout_centerInParent="true"
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        app:srcCompat="@drawable/orchestra_logo" />
 </RelativeLayout>

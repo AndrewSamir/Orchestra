@@ -14,6 +14,8 @@
         android:layout_gravity="bottom"
         android:layout_weight="1"
         android:background="#FFFFFF"
+        app:itemIconTint="@color/bnv_tab_item_foreground"
+        app:itemTextColor="@color/bnv_tab_item_foreground"
         android:elevation="8dp"
         app:elevation="8dp"
         app:menu="@menu/navigation" />

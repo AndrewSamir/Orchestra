@@ -21,4 +21,12 @@
         <item name="android:textSize">10sp</item>
     </style>
 
+    /activity>
+    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowBackground">@drawable/capture</item>
+    </style>
+
 </resources>

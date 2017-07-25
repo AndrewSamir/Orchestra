@@ -29,7 +29,7 @@ public class SplashScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Fabric.with(this, new Crashlytics());
-        setContentView(R.layout.activity_splash_screen);
+      //  setContentView(R.layout.activity_splash_screen);
 
 
         if (!calledAlready) {

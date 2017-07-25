@@ -12,15 +12,23 @@
     android:weightSum="4">
 
     <TextView
-        android:layout_marginTop="20dp"
         android:id="@+id/textViewOrchestraPassCodeDialog"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="20dp"
         android:layout_weight="1.1"
         android:gravity="center"
         android:text="@string/app_name"
         android:textColor="#FFFFFF"
-        android:textSize="35dp" />
+        android:textSize="35dp"
+        android:visibility="gone" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="30dp"
+        android:layout_weight="1.1"
+        android:src="@drawable/orchestra_logo" />
 
     <RelativeLayout
         android:layout_width="match_parent"
